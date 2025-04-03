@@ -336,7 +336,7 @@ footer {
 .game-time-display {
     position: fixed;
     top: 20px;
-    right: calc((100% - 1200px) / 2 + 50px);
+    right: 50px;
     display: flex;
     align-items: center;
     gap: 5px;
