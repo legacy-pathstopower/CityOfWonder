@@ -6,16 +6,90 @@
     <title>The City of Wonders - Idle RPG</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/animations.css">
+    <script type="module" src="js/main.js"></script>
 </head>
 <body>
-    
-    <!-- Include game screen -->
-    <div id="include-game-screen">
-        <!-- This will be replaced with game-screen.html content -->
-    </div>
-    
-    <!-- JavaScript modules -->
-    <!-- Main application entry point -->
-    <script type="module" src="js/main.js"></script>
-</body>
-</html>
+    <div class="container">
+        <header>
+            <h2>Welcome to</h2>
+            <h1>The City of Wonders</h1>
+            <p>An idle RPG adventure awaits you</p>
+        </header>
+        
+        <main>
+            <!-- Game Screen Content -->
+            <div class="game-wrapper">
+                <div class="game-container">
+                    <!-- Welcome Section -->
+                    <section id="welcome-section" class="game-section active">
+                        <div class="welcome-content">
+                            <h2>Begin Your Journey</h2>
+                            <p>Explore the mysterious City of Wonders, battle creatures, collect treasures, and become a legend.</p>
+                            <button id="start-game-btn" class="btn primary-btn">Enter the City</button>
+                        </div>
+                    </section>
+                    
+                    <!-- Character Creation Section (initially hidden) -->
+                    <section id="character-creation-section" class="game-section">
+                        <div id="character-creation">
+                            <h2>Create Your Character</h2>
+                            <form id="create-character-form">
+                                <div class="form-group">
+                                    <label for="character-name">Name:</label>
+                                    <input type="text" id="character-name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Class:</label>
+                                    <div class="class-options">
+                                        <div class="class-option">
+                                            <input type="radio" id="class-urchin" name="character-class" value="Urchin" checked>
+                                            <label for="class-urchin">Urchin</label>
+                                            <p class="class-description">A street-smart survivor from the city slums.</p>
+                                        </div>
+                                        <div class="class-option">
+                                            <input type="radio" id="class-waif" name="character-class" value="Waif">
+                                            <label for="class-waif">Waif</label>
+                                            <p class="class-description">A quiet outsider with mysterious origins.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" id="create-character-btn">Begin Adventure</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- Game Interface Section (initially hidden) -->
+                    <section id="game-interface" class="game-section">
+                        <div class="game-header">
+                            <h2>Welcome to The City of Wonders, <span id="player-name"></span></h2>
+                            <p>Your adventure begins now, brave <span id="player-class"></span>.</p>
+                        </div>
+                        
+                        <div class="character-info">
+                            <h3>Character Stats</h3>
+                            <ul id="player-stats">
+                                <!-- Stats will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                        
+                        <div class="game-actions">
+                            <button id="explore-btn">Explore the City</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            Inspired by <a href="https://mathiashjelm.gitlab.io/arcanum/" target="_blank">Theory of Magic</a> | Connect with us at
+            <a href="https://github.com/legacy-pathstopower/CityOfWonder" target="_blank">Developer Page</a> or <a href="mailto:legacypathstopower@gmail.com">Send Email</a>
+            <br>
+            City of Wonders © 2025 by Matthew Robinson is licensed under 
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International</a>
+            <br>
+            <p>Support the game by donating to the developer: <a href="https://www.paypal.com/donate/?hosted_button_id=BDRURLAMWNPZL" target="_blank">donate</a>.</p>
+            <p>Do this at your own risk. No promises are made that anything more will happen with this game.</p>

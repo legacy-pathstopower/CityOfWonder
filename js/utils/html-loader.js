@@ -1,36 +1,17 @@
 /**
- * HTML Loader Module
- * Handles loading partial HTML files into the main document
+ * Simplified HTML Loader Module
+ * We're removing the partial loading system since it's causing issues
+ * and all content is now directly in the index.html
  */
 
 /**
- * Load partial HTML files into placeholders
+ * Mock function to maintain compatibility with existing code
  * @returns {Promise<void>}
  */
 async function loadPartials() {
-    // Define the partials and their target elements
-    const partials = [
-        { url: './partials/header.html', target: '#include-header' },
-        { url: './partials/footer.html', target: '#include-footer' },
-        { url: './partials/game-screen.html', target: '#include-game-screen' }
-    ];
-
-    // Fetch and insert each partial
-    const loadPromises = partials.map(async (partial) => {
-        try {
-            const response = await fetch(partial.url);
-            if (!response.ok) {
-                throw new Error(`Failed to load ${partial.url}`);
-            }
-            const html = await response.text();
-            document.querySelector(partial.target).innerHTML = html;
-        } catch (error) {
-            console.error(error);
-        }
-    });
-
-    // Wait for all partials to load
-    await Promise.all(loadPromises);
+    // This function now does nothing, as we've moved all content to index.html
+    console.log('HTML content is now directly in index.html - no partials to load');
+    return Promise.resolve();
 }
 
 export { loadPartials };

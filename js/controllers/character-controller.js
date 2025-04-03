@@ -5,7 +5,7 @@
 
 import Character from '../models/character.js';
 import gameState from '../models/game-state.js';
-import { hideSection, showSection } from '../utils/ui-manager.js';
+import { hideSection, showSection, showNotification, showInputError } from '../utils/ui-manager.js';
 
 /**
  * Initialize character creation functionality
@@ -41,8 +41,11 @@ function handleCharacterFormSubmit(event) {
     // Create the character
     createCharacter(name, characterClass);
     
+    // Show notification
+    showNotification(`Character ${name} created successfully!`, 'success');
+    
     // Transition to game interface
-    hideSection('character-creation');
+    hideSection('character-creation-section');
     showGameInterface();
 }
 
@@ -88,42 +91,8 @@ function showGameInterface() {
         statsList.appendChild(listItem);
     }
     
-    // Show the game interface
+    // Show the game interface with animation
     showSection('game-interface');
-}
-
-/**
- * Show an input error message
- * @param {string} inputId - ID of the input field
- * @param {string} message - Error message to display
- */
-function showInputError(inputId, message) {
-    const input = document.getElementById(inputId);
-    input.style.border = '1px solid #ff5555';
-    
-    // Create error message element
-    const errorMessage = document.createElement('div');
-    errorMessage.style.color = '#ff5555';
-    errorMessage.style.fontSize = '0.8rem';
-    errorMessage.style.marginTop = '5px';
-    errorMessage.textContent = message;
-    
-    // Check if an error message already exists
-    const existingError = input.parentNode.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
-    
-    // Add error message after the input
-    input.parentNode.insertBefore(errorMessage, input.nextSibling);
-    
-    // Remove error after 3 seconds
-    setTimeout(() => {
-        input.style.border = '1px solid var(--color-gray-medium)';
-        if (errorMessage.parentNode) {
-            errorMessage.parentNode.removeChild(errorMessage);
-        }
-    }, 3000);
 }
 
 export { initCharacterCreation, createCharacter, showGameInterface };
