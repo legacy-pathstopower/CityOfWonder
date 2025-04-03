@@ -6,6 +6,7 @@
 import Character from '../models/character.js';
 import gameState from '../models/game-state.js';
 import { hideSection, showSection, showNotification, showInputError } from '../utils/ui-manager.js';
+import { initGameInterface } from './game-interface-controller.js';
 
 /**
  * Initialize character creation functionality
@@ -42,7 +43,7 @@ function handleCharacterFormSubmit(event) {
     createCharacter(name, characterClass);
     
     // Show notification
-    showNotification(`Character ${name} created successfully!`, 'success');
+    showNotification(`Welcome to the City of Wonders, ${name}!`, 'success');
     
     // Transition to game interface
     hideSection('character-creation-section');
@@ -77,22 +78,11 @@ function showGameInterface() {
         return;
     }
     
-    // Update player info in the DOM
-    document.getElementById('player-name').textContent = player.name;
-    document.getElementById('player-class').textContent = player.class;
-    
-    // Generate stats list
-    const statsList = document.getElementById('player-stats');
-    statsList.innerHTML = '';
-    
-    for (const [stat, value] of Object.entries(player.stats)) {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${value}`;
-        statsList.appendChild(listItem);
-    }
-    
     // Show the game interface with animation
     showSection('game-interface');
+    
+    // Initialize the game interface
+    initGameInterface();
 }
 
 export { initCharacterCreation, createCharacter, showGameInterface };

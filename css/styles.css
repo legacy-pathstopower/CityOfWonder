@@ -317,52 +317,374 @@ footer {
 
 .game-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 .game-header h2 {
     color: var(--color-accent);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-.character-info {
-    margin-bottom: 30px;
-    padding: 15px;
+/* Game time display */
+.game-time-display {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
+    border-left: 3px solid var(--color-accent);
+    transition: all 0.3s ease;
 }
 
-.character-info h3 {
-    margin-bottom: 10px;
+.time-icon {
+    font-size: 1.2rem;
+}
+
+.time-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+#game-day {
+    font-weight: bold;
+    font-size: 0.8rem;
     color: var(--color-accent);
 }
 
-.character-info ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+#game-time {
+    font-family: monospace;
+}
+
+/* Time of day styles */
+.game-time-display.dawn {
+    background-color: rgba(162, 58, 0, 0.2);
+    border-left-color: #ff9248;
+}
+
+.game-time-display.day {
+    background-color: rgba(0, 102, 204, 0.2);
+    border-left-color: #4fa3ff;
+}
+
+.game-time-display.dusk {
+    background-color: rgba(128, 0, 128, 0.2);
+    border-left-color: #d073ff;
+}
+
+.game-time-display.night {
+    background-color: rgba(0, 0, 51, 0.2);
+    border-left-color: #2d2d8e;
+}
+
+/* Main panels layout */
+.game-panels {
+    display: flex;
+    gap: 15px;
+    min-height: 500px;
+}
+
+.game-panel {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Left panel - Resources */
+.resources-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-.game-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
+.resources-panel h3 {
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-gray-medium);
 }
 
-.game-actions button {
-    padding: 10px 20px;
+.resource-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.resource-item:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.resource-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.resource-name {
+    flex: 1;
+    font-weight: bold;
+}
+
+.resource-value {
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+/* Center panel - Interaction */
+.interaction-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.location-info {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-gray-medium);
+}
+
+.location-info h3 {
+    color: var(--color-accent);
+    margin-bottom: 5px;
+}
+
+.location-info p {
+    color: var(--color-gray-medium);
+    font-style: italic;
+}
+
+.action-options {
+    margin-bottom: 20px;
+}
+
+.action-options h4 {
+    color: var(--color-light);
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 3px solid var(--color-accent);
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 4px;
+    color: var(--color-light);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.action-btn:hover {
+    background-color: var(--color-secondary);
+    transform: translateY(-2px);
+}
+
+.action-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.action-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.action-cost {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    color: var(--color-gray-medium);
+}
+
+/* Locations section */
+.locations-section {
+    margin: 20px 0;
+}
+
+.locations-section h4 {
+    color: var(--color-light);
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 3px solid var(--color-accent);
+}
+
+.locations-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.location-btn {
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-gray-medium);
+    border-radius: 4px;
+    color: var(--color-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.location-btn:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-accent);
+}
+
+.location-btn.active {
+    background-color: var(--color-secondary);
+    border-color: var(--color-accent);
+}
+
+.no-locations {
+    font-style: italic;
+    color: var(--color-gray-medium);
+    padding: 5px;
+}
+
+.game-log {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+.game-log h4 {
+    color: var(--color-light);
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 3px solid var(--color-accent);
+}
+
+.log-content {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 10px;
+    height: 150px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.log-content p {
+    margin-bottom: 8px;
+    color: var(--color-gray-medium);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* Right panel - Stats */
+.stats-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stats-panel h3 {
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-gray-medium);
+}
+
+.level-info, .exp-info, .health-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: var(--color-light);
+}
+
+.stat-value {
+    font-family: monospace;
+}
+
+.stats-container {
+    margin-top: 10px;
+}
+
+.stats-container h4 {
+    color: var(--color-light);
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 3px solid var(--color-accent);
+}
+
+.stat-list {
+    list-style: none;
+    padding: 0;
+}
+
+.stat-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: background-color 0.2s;
+}
+
+.stat-list li:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.game-menu {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-btn {
+    padding: 8px 12px;
     background-color: var(--color-primary);
     color: var(--color-light);
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.game-actions button:hover {
+.menu-btn:hover {
     background-color: var(--color-secondary);
+}
+
+.danger-btn {
+    background-color: #d9534f;
+}
+
+.danger-btn:hover {
+    background-color: #c9302c;
 }
 
 /* Error styling */
@@ -370,16 +692,6 @@ footer {
     color: #ff5555;
     font-size: 0.8rem;
     margin-top: 5px;
-}
-
-/* Reset button styling */
-.danger-btn {
-    background-color: #d9534f;
-    color: var(--color-light);
-}
-
-.danger-btn:hover {
-    background-color: #c9302c;
 }
 
 /* Confirmation dialog */
@@ -469,6 +781,24 @@ footer a[href*="donate"]:hover {
 }
 
 /* Media queries for responsiveness */
+@media (max-width: 920px) {
+    .game-panels {
+        flex-direction: column;
+    }
+    
+    .resources-panel {
+        order: 2;
+    }
+    
+    .interaction-panel {
+        order: 1;
+    }
+    
+    .stats-panel {
+        order: 3;
+    }
+}
+
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;

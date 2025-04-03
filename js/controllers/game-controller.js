@@ -5,6 +5,7 @@
 
 import { hideSection, showSection, showNotification } from '../utils/ui-manager.js';
 import gameState from '../models/game-state.js';
+import { initGameInterface, resetGame } from './game-interface-controller.js';
 
 /**
  * Initialize the game controller
@@ -12,10 +13,14 @@ import gameState from '../models/game-state.js';
 function initGameController() {
     // Check if there's a saved game
     if (gameState.player) {
-        // If we have a player, setup exploration and show game interface
-        setupExploration();
-        setupResetButton(); // Setup reset game functionality
+        // If we have a player, setup game interface
         showSection('game-interface');
+        initGameInterface();
+        
+        // Ensure locations are properly initialized
+        import('./game-activities-controller.js').then(module => {
+            module.initLocations();
+        });
     } else {
         // Otherwise, show the welcome screen
         showSection('welcome-section');
@@ -49,56 +54,6 @@ function startGame() {
     setTimeout(() => {
         showSection('character-creation-section');
     }, 500);
-}
-
-/**
- * Set up exploration functionality
- */
-function setupExploration() {
-    const exploreButton = document.getElementById('explore-btn');
-    if (exploreButton) {
-        exploreButton.addEventListener('click', function() {
-            // Simulate exploration with a loading indicator
-            showNotification('Exploring the city...', 'info', 1000);
-            
-            // After a short delay, show another notification with "results"
-            setTimeout(() => {
-                const events = [
-                    'You found some old coins in a fountain! +5 gold',
-                    'You encountered a friendly merchant who shared city gossip.',
-                    'You discovered a hidden alleyway leading to a mysterious shop.',
-                    'You helped a city guard catch a pickpocket and earned their gratitude.',
-                    'You found a torn page from an ancient book with cryptic writings.'
-                ];
-                
-                // Select random event
-                const randomEvent = events[Math.floor(Math.random() * events.length)];
-                
-                // Show the event notification
-                showNotification(randomEvent, 'success', 3000);
-                
-                // If it's the gold event, actually add gold to the player
-                if (randomEvent.includes('gold')) {
-                    gameState.player.modifyGold(5);
-                    gameState.saveGame();
-                }
-            }, 1500);
-        });
-    } else {
-        console.error('Explore button not found in the DOM.');
-    }
-}
-
-/**
- * Setup reset button functionality
- */
-function setupResetButton() {
-    const resetButton = document.getElementById('reset-game-btn');
-    if (resetButton) {
-        resetButton.addEventListener('click', showResetConfirmation);
-    } else {
-        console.error('Reset button not found in the DOM.');
-    }
 }
 
 /**
@@ -153,20 +108,4 @@ function showResetConfirmation() {
     });
 }
 
-/**
- * Reset the game
- */
-function resetGame() {
-    // Clear game state
-    gameState.resetGame();
-    
-    // Show welcome screen
-    hideSection('game-interface');
-    setTimeout(() => {
-        showSection('welcome-section');
-    }, 500);
-    
-    showNotification('Game has been reset', 'info');
-}
-
-export { initGameController, startGame, setupExploration, resetGame };
+export { initGameController, startGame, showResetConfirmation };
