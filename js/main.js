@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         console.log('City of Wonders: Initializing game...');
         
-        // Initialize modules directly without waiting for partials
+        // Initialize game modules
         initializeGame();
         
     } catch (error) {
-        console.error('Error during initialization:', error);
-        showNotification('There was an error loading the game. Please try refreshing the page.', 'error');
+        console.error('Initialization error:', error);
+        showNotification('Failed to load the game. Please refresh the page.', 'error');
     }
 });
 
@@ -27,32 +27,42 @@ document.addEventListener('DOMContentLoaded', function() {
  * Initialize all game modules
  */
 function initializeGame() {
-    // Initialize the game state
-    gameState.init();
-    
-    // Initialize the character creation module
-    initCharacterCreation();
-    
-    // Initialize the game controller
-    initGameController();
-    
-    // Setup donation link if it exists
-    const donateLink = document.querySelector('footer a[href*="paypal"]');
-    if (donateLink) {
-        donateLink.addEventListener('click', function() {
-            showNotification('Thank you for supporting the development!', 'success');
-        });
+    try {
+        // Initialize the game state
+        gameState.init();
+        
+        // Initialize the character creation module
+        initCharacterCreation();
+        
+        // Initialize the game controller
+        initGameController();
+        
+        // Setup donation link if it exists
+        const donateLink = document.querySelector('footer a[href*="paypal"]');
+        if (donateLink) {
+            donateLink.addEventListener('click', function() {
+                showNotification('Thank you for supporting the development!', 'success');
+            });
+        }
+        
+        // Log initialization complete
+        console.log('City of Wonders: Initialization complete');
+    } catch (error) {
+        console.error('Game initialization failed:', error);
+        showNotification('Error setting up the game. Please try again.', 'error');
     }
-    
-    // Log initialization complete
-    console.log('City of Wonders: Initialization complete');
 }
 
-// Export functions to global scope for HTML access
-window.showNotification = showNotification;
+// Export global functions for HTML access
 window.resetGame = function() {
-    // Import resetGame from game-controller
-    import('./controllers/game-controller.js').then(module => {
+    // Dynamic import to avoid circular dependencies
+    import('./controllers/game-interface-controller.js').then(module => {
         module.resetGame();
+    }).catch(error => {
+        console.error('Failed to reset game:', error);
+        showNotification('Game reset failed. Please refresh the page.', 'error');
     });
 };
+
+// Optional: Export showNotification for global use
+window.showNotification = showNotification;

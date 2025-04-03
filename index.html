@@ -63,24 +63,97 @@
                     </section>
 
                     <!-- Game Interface Section (initially hidden) -->
+                    <!-- Updated Game Interface Section with Three Panels -->
                     <section id="game-interface" class="game-section">
                         <div class="game-header">
-                            <h2>Welcome to The City of Wonders, <span id="player-name"></span></h2>
-                            <p>Your adventure begins now, brave <span id="player-class"></span>.</p>
+                            <h2>The City of Wonders</h2>
+                            <p>Welcome, <span id="player-name"></span> the <span id="player-class"></span></p>
                         </div>
                         
-                        <div class="character-info">
-                            <h3>Character Stats</h3>
-                            <ul id="player-stats">
-                                <!-- Stats will be populated by JavaScript -->
-                            </ul>
+                        <div class="game-panels">
+                            <!-- Left Panel - Resources -->
+                            <div class="game-panel resources-panel">
+                                <h3>Resources</h3>
+                                <div class="resource-item">
+                                    <span class="resource-icon">💰</span>
+                                    <span class="resource-name">Gold:</span>
+                                    <span id="player-gold" class="resource-value">0</span>
+                                </div>
+                                <div class="resource-item">
+                                    <span class="resource-icon">⚡</span>
+                                    <span class="resource-name">Energy:</span>
+                                    <span id="player-energy" class="resource-value">50</span>/<span id="player-max-energy">50</span>
+                                </div>
+                                <div id="additional-resources">
+                                    <!-- Additional resources will be added here as they are unlocked -->
+                                </div>
+                            </div>
+                            
+                            <!-- Center Panel - Interaction -->
+                            <div class="game-panel interaction-panel">
+                                <div class="location-info">
+                                    <h3 id="current-location">City Square</h3>
+                                    <p id="location-description">The bustling heart of the City of Wonders, where paths lead to adventure.</p>
+                                </div>
+                                
+                                <div class="action-options">
+                                    <h4>Available Actions</h4>
+                                    <div class="action-buttons">
+                                        <button id="explore-btn" class="action-btn">
+                                            <span class="action-icon">🔍</span>
+                                            <span class="action-name">Explore</span>
+                                            <span class="action-cost">(-5 Energy)</span>
+                                        </button>
+                                        <button id="rest-btn" class="action-btn">
+                                            <span class="action-icon">😴</span>
+                                            <span class="action-name">Rest</span>
+                                            <span class="action-cost">(+20 Energy)</span>
+                                        </button>
+                                        <button id="trade-btn" class="action-btn">
+                                            <span class="action-icon">🛒</span>
+                                            <span class="action-name">Trade</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="game-log">
+                                    <h4>Adventure Log</h4>
+                                    <div id="log-content" class="log-content">
+                                        <p>Your adventure begins in the City of Wonders...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Panel - Character Stats -->
+                            <div class="game-panel stats-panel">
+                                <h3>Character Stats</h3>
+                                <div class="level-info">
+                                    <span class="stat-label">Level:</span>
+                                    <span id="player-level" class="stat-value">1</span>
+                                </div>
+                                <div class="exp-info">
+                                    <span class="stat-label">Experience:</span>
+                                    <span id="player-exp" class="stat-value">0</span>/<span id="player-exp-next">100</span>
+                                </div>
+                                <div class="health-info">
+                                    <span class="stat-label">Health:</span>
+                                    <span id="player-health" class="stat-value">100</span>/<span id="player-max-health">100</span>
+                                </div>
+                                
+                                <div class="stats-container">
+                                    <h4>Attributes</h4>
+                                    <ul id="player-stats" class="stat-list">
+                                        <!-- Stats will be populated by JavaScript -->
+                                    </ul>
+                                </div>
+                                
+                                <div class="game-menu">
+                                    <button id="settings-btn" class="menu-btn">Settings</button>
+                                    <button id="reset-game-btn" class="menu-btn danger-btn">Reset Game</button>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="game-actions">
-                            <button id="explore-btn">Explore the City</button>
-                            <button id="reset-game-btn" class="danger-btn">Reset Game</button>
-                        </div>
-                    </section>
+                    </section>                    
                 </div>
             </div>
         </main>
