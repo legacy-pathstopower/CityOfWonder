@@ -52,7 +52,7 @@ function updateResourcesPanel() {
     if (!player) return;
     
     // Update gold
-    document.getElementById('player-gold').textContent = player.gold;    
+    document.getElementById('player-gold').textContent = player.gold + '/' + player.maxGold;   
     
     // Additional resources can be added here as they are unlocked
 }

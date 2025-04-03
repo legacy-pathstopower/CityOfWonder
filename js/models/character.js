@@ -33,6 +33,7 @@ class Character {
         this.stamina = this.stats.endurance * 2; // Base stamina is twice the endurance
         this.maxStamina = this.stats.endurance * 2; // Base stamina is twice the endurance
         this.gold = 0;
+        this.maxGold = 10; // Starting gold
     }
 
     /**
@@ -101,7 +102,20 @@ class Character {
      */
     modifyGold(amount) {
         this.gold = Math.max(0, this.gold + amount);
+        if (this.gold > this.maxGold) {
+            this.gold = this.maxGold; // Cap gold at maxGold
+        }
+
         return this.gold;
+    }
+
+    /**
+     * Increase max gold
+     * @param {number} amount - Amount to increase max gold by
+     */
+    increaseMaxGold(amount) {
+        this.maxGold += amount;
+        return this.maxGold;
     }
 }
 
