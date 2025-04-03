@@ -949,12 +949,3 @@ footer a[href*="donate"]:hover {
 .stamina-progress.stamina-change .progress-bar {
     animation: stamina-flash 0.8s;
 }
-
-.level-info, .exp-info, .health-info, .stamina-info {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 10px;
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    margin-bottom: 5px;
-}
