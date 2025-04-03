@@ -49,18 +49,18 @@ function startGame() {
 function hideSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
-        section.classList.remove('active');
+        section.style.display = 'none';
     }
 }
 
 /**
- * Show a section by ID with animation
+ * Show a section by ID 
  * @param {string} sectionId - The ID of the section to show
  */
 function showSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
-        section.classList.add('active');
+        section.style.display = 'block';
     }
 }
 
@@ -73,6 +73,15 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = '#333333';
+    notification.style.padding = '15px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.maxWidth = '300px';
+    notification.style.zIndex = '1000';
+    
     notification.innerHTML = `
         <div class="notification-content">
             <p>${message}</p>
@@ -82,22 +91,12 @@ function showNotification(message, type = 'info') {
     // Add to the DOM
     document.body.appendChild(notification);
     
-    // Show with animation
+    // Auto hide after 3 seconds
     setTimeout(() => {
-        notification.classList.add('show');
-        
-        // Auto hide after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            
-            // Remove from DOM after animation completes
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 500);
-        }, 3000);
-    }, 10);
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 3000);
 }
 
 // Export utilities for use in other modules

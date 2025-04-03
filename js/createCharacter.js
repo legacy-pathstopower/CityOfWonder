@@ -62,43 +62,30 @@ function createCharacter(name, characterClass) {
  * Show the game interface with player data
  */
 function showGameInterface() {
-    // Show loading indicator
-    const loadingIndicator = document.createElement('div');
-    loadingIndicator.className = 'loading-indicator';
-    loadingIndicator.innerHTML = '<div class="spinner"></div><p>Loading your adventure...</p>';
+    // Get player info
+    const player = window.gameState?.player;
     
-    document.querySelector('main').appendChild(loadingIndicator);
+    if (!player) {
+        console.error('Player data not found in game state.');
+        return;
+    }
     
-    // Simulate loading time
-    setTimeout(() => {
-        // Remove loading indicator
-        document.querySelector('main').removeChild(loadingIndicator);
-        
-        // Get player info
-        const player = window.gameState?.player;
-        
-        if (!player) {
-            console.error('Player data not found in game state.');
-            return;
-        }
-        
-        // Update player info in the DOM
-        document.getElementById('player-name').textContent = player.name;
-        document.getElementById('player-class').textContent = player.class;
-        
-        // Generate stats list
-        const statsList = document.getElementById('player-stats');
-        statsList.innerHTML = '';
-        
-        for (const [stat, value] of Object.entries(player.stats)) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${value}`;
-            statsList.appendChild(listItem);
-        }
-        
-        // Show the game interface
-        document.getElementById('game-interface').classList.add('active');
-    }, 1000);
+    // Update player info in the DOM
+    document.getElementById('player-name').textContent = player.name;
+    document.getElementById('player-class').textContent = player.class;
+    
+    // Generate stats list
+    const statsList = document.getElementById('player-stats');
+    statsList.innerHTML = '';
+    
+    for (const [stat, value] of Object.entries(player.stats)) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${value}`;
+        statsList.appendChild(listItem);
+    }
+    
+    // Show the game interface
+    showSection('game-interface');
 }
 
 /**
@@ -108,11 +95,13 @@ function showGameInterface() {
  */
 function showInputError(inputId, message) {
     const input = document.getElementById(inputId);
-    input.classList.add('error');
+    input.style.border = '1px solid #ff5555';
     
     // Create error message element
     const errorMessage = document.createElement('div');
-    errorMessage.className = 'error-message';
+    errorMessage.style.color = '#ff5555';
+    errorMessage.style.fontSize = '0.8rem';
+    errorMessage.style.marginTop = '5px';
     errorMessage.textContent = message;
     
     // Check if an error message already exists
@@ -126,22 +115,11 @@ function showInputError(inputId, message) {
     
     // Remove error after 3 seconds
     setTimeout(() => {
-        input.classList.remove('error');
+        input.style.border = '1px solid var(--color-gray-medium)';
         if (errorMessage.parentNode) {
             errorMessage.parentNode.removeChild(errorMessage);
         }
     }, 3000);
-}
-
-/**
- * Hide a section by ID
- * @param {string} sectionId - The ID of the section to hide
- */
-function hideSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.classList.remove('active');
-    }
 }
 
 // Make the initialization function available globally
