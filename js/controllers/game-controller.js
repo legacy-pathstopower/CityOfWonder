@@ -14,6 +14,7 @@ function initGameController() {
     if (gameState.player) {
         // If we have a player, setup exploration and show game interface
         setupExploration();
+        setupResetButton(); // Setup reset game functionality
         showSection('game-interface');
     } else {
         // Otherwise, show the welcome screen
@@ -86,6 +87,70 @@ function setupExploration() {
     } else {
         console.error('Explore button not found in the DOM.');
     }
+}
+
+/**
+ * Setup reset button functionality
+ */
+function setupResetButton() {
+    const resetButton = document.getElementById('reset-game-btn');
+    if (resetButton) {
+        resetButton.addEventListener('click', showResetConfirmation);
+    } else {
+        console.error('Reset button not found in the DOM.');
+    }
+}
+
+/**
+ * Show reset confirmation dialog
+ */
+function showResetConfirmation() {
+    // Create confirmation dialog
+    const dialog = document.createElement('div');
+    dialog.className = 'confirmation-dialog';
+    
+    dialog.innerHTML = `
+        <div class="confirmation-content">
+            <h3>Reset Game</h3>
+            <p>Are you sure you want to reset your game? This will delete all progress and cannot be undone.</p>
+            <div class="confirmation-actions">
+                <button class="confirm-btn">Yes, Reset Game</button>
+                <button class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    `;
+    
+    // Add to DOM
+    document.body.appendChild(dialog);
+    
+    // Show dialog with animation
+    setTimeout(() => {
+        dialog.classList.add('active');
+    }, 10);
+    
+    // Setup action buttons
+    const confirmButton = dialog.querySelector('.confirm-btn');
+    const cancelButton = dialog.querySelector('.cancel-btn');
+    
+    confirmButton.addEventListener('click', function() {
+        // Close dialog first
+        dialog.classList.remove('active');
+        
+        // Then reset game after animation completes
+        setTimeout(() => {
+            resetGame();
+            dialog.remove();
+        }, 300);
+    });
+    
+    cancelButton.addEventListener('click', function() {
+        // Just close the dialog
+        dialog.classList.remove('active');
+        
+        setTimeout(() => {
+            dialog.remove();
+        }, 300);
+    });
 }
 
 /**

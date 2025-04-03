@@ -1,11 +1,10 @@
 /**
  * Simplified HTML Loader Module
- * We're removing the partial loading system since it's causing issues
- * and all content is now directly in the index.html
+ * All content is now directly in the index.html
  */
 
 /**
- * Mock function to maintain compatibility with existing code
+ * A safe implementation that resolves immediately without attempting to modify DOM
  * @returns {Promise<void>}
  */
 async function loadPartials() {

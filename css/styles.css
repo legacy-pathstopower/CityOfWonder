@@ -42,7 +42,8 @@ body {
 /* Header styles */
 header {
     text-align: center;
-    padding: 40px 0;
+    padding: 20px 0;
+    margin-bottom: 0;
 }
 
 header h1 {
@@ -61,16 +62,18 @@ header h2 {
 header p {
     font-size: 1.2rem;
     color: var(--color-gray-medium);
+    margin-bottom: 0;
 }
 
 /* Main content styles */
 main {
     flex: 1;
     position: relative;
-    min-height: 400px;
+    min-height: auto;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 10px;
 }
 
 /* Game sections styles */
@@ -78,8 +81,9 @@ main {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    align-items: flex-start;
+    min-height: auto;
+    padding: 10px 0;
 }
 
 .game-container {
@@ -162,6 +166,53 @@ footer {
     padding: 20px 0;
     color: var(--color-gray-medium);
     font-size: 0.9rem;
+    border-top: 1px solid var(--color-gray-dark);
+    margin-top: 30px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-links, .footer-license, .footer-donate {
+    margin-bottom: 10px;
+}
+
+.footer-donate {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin: 10px auto;
+    max-width: 500px;
+}
+
+.donate-button {
+    display: inline-block;
+    padding: 10px 25px !important;
+    background-color: var(--color-accent);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 10px 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.donate-button:hover {
+    background-color: var(--color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-gray-medium);
+    margin-top: 5px;
 }
 
 /* Character Creation Form */
@@ -319,6 +370,102 @@ footer {
     color: #ff5555;
     font-size: 0.8rem;
     margin-top: 5px;
+}
+
+/* Reset button styling */
+.danger-btn {
+    background-color: #d9534f;
+    color: var(--color-light);
+}
+
+.danger-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Confirmation dialog */
+.confirmation-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.confirmation-dialog.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.confirmation-content {
+    width: 90%;
+    max-width: 400px;
+    background-color: var(--color-gray-dark);
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.confirmation-content h3 {
+    margin-bottom: 15px;
+    color: var(--color-accent);
+}
+
+.confirmation-content p {
+    margin-bottom: 20px;
+    color: var(--color-light);
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirmation-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background-color: #d9534f;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: var(--color-gray-medium);
+    color: var(--color-dark);
+}
+
+/* Donate Button Styling */
+footer a[href*="paypal"], 
+footer a[href*="donate"] {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--color-accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 5px 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+footer a[href*="paypal"]:hover,
+footer a[href*="donate"]:hover {
+    background-color: var(--color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Media queries for responsiveness */

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         console.log('City of Wonders: Initializing game...');
         
-        // Initialize modules
+        // Initialize modules directly without waiting for partials
         initializeGame();
         
     } catch (error) {
@@ -36,13 +36,23 @@ function initializeGame() {
     // Initialize the game controller
     initGameController();
     
-    // Add event listener for the footer donation link
-    setupDonationLink();
+    // Setup donation link if it exists
+    const donateLink = document.querySelector('footer a[href*="paypal"]');
+    if (donateLink) {
+        donateLink.addEventListener('click', function() {
+            showNotification('Thank you for supporting the development!', 'success');
+        });
+    }
     
     // Log initialization complete
     console.log('City of Wonders: Initialization complete');
 }
 
-
-// Export any functions that need to be accessed from HTML
+// Export functions to global scope for HTML access
 window.showNotification = showNotification;
+window.resetGame = function() {
+    // Import resetGame from game-controller
+    import('./controllers/game-controller.js').then(module => {
+        module.resetGame();
+    });
+};
