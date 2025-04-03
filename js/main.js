@@ -4,29 +4,36 @@
  */
 
 // Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Get reference to the start button
-    const startButton = document.getElementById('start-game-btn');
-    
-    // Ensure the start button exists before adding an event listener
-    if (startButton) {
-        // Add click event listener to the start button
-        startButton.addEventListener('click', startGame);
-    } else {
-        console.error('Start button not found in the DOM.');
-    }
-    
-    // Initialize the character creation module
-    initCharacterCreation();
-    
-    // Set up explore button event listener
-    const exploreButton = document.getElementById('explore-btn');
-    if (exploreButton) {
-        exploreButton.addEventListener('click', function() {
-            showNotification('Exploration feature coming soon!', 'info');
-        });
-    } else {
-        console.error('Explore button not found in the DOM.');
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        // Load partials first
+        await loadPartials();
+
+        // Get reference to the start button
+        const startButton = document.getElementById('start-game-btn');
+
+        // Ensure the start button exists before adding an event listener
+        if (startButton) {
+            // Add click event listener to the start button
+            startButton.addEventListener('click', startGame);
+        } else {
+            console.error('Start button not found in the DOM.');
+        }
+
+        // Initialize the character creation module
+        initCharacterCreation();
+
+        // Set up explore button event listener
+        const exploreButton = document.getElementById('explore-btn');
+        if (exploreButton) {
+            exploreButton.addEventListener('click', function () {
+                showNotification('Exploration feature coming soon!', 'info');
+            });
+        } else {
+            console.error('Explore button not found in the DOM.');
+        }
+    } catch (error) {
+        console.error('Error during initialization:', error);
     }
 });
 
@@ -97,6 +104,36 @@ function showNotification(message, type = 'info') {
             notification.parentNode.removeChild(notification);
         }
     }, 3000);
+}
+
+/**
+ * Load partial HTML files into placeholders
+ * @returns {Promise<void>}
+ */
+async function loadPartials() {
+    // Define the partials and their target elements
+    const partials = [
+        { url: './partials/header.html', target: '#include-header' },
+        { url: './partials/footer.html', target: '#include-footer' },
+        { url: './partials/game-screen.html', target: '#include-game-screen' }
+    ];
+
+    // Fetch and insert each partial
+    const loadPromises = partials.map(async (partial) => {
+        try {
+            const response = await fetch(partial.url);
+            if (!response.ok) {
+                throw new Error(`Failed to load ${partial.url}`);
+            }
+            const html = await response.text();
+            document.querySelector(partial.target).innerHTML = html;
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    // Wait for all partials to load
+    await Promise.all(loadPromises);
 }
 
 // Export utilities for use in other modules

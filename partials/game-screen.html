@@ -1,0 +1,80 @@
+<div class="game-wrapper">  
+    <div class="game-container">
+        <!-- Include header -->
+        <div id="include-header">
+            <!-- This will be replaced with header.html content -->
+        </div>
+        <!-- Character Creation Screen -->
+        <div id="character-creation">
+            <input type="text" id="character-name" placeholder="Enter character name">
+            <button id="start-game">Begin Your Journey</button>
+        </div>
+        
+        <section id="welcome-section" class="game-section" style="display: block;">
+            <div class="welcome-content">
+                <h2>Begin Your Journey</h2>
+                <p>Explore the mysterious City of Wonders, battle creatures, collect treasures, and become a legend.</p>
+                <button id="start-game-btn" class="btn primary-btn">Enter the City</button>
+            </div>
+        </section>
+        
+        <!-- Character Creation Section (initially hidden) -->
+        <section id="character-creation" class="game-section" style="display: none;">
+            <div style="width: 100%; max-width: 600px;">
+                <h2>Create Your Character</h2>
+                <form id="create-character-form">
+                    <div class="form-group">
+                        <label for="character-name">Name:</label>
+                        <input type="text" id="character-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Class:</label>
+                        <div class="class-options">
+                            <div class="class-option">
+                                <input type="radio" id="class-urchin" name="character-class" value="Urchin" checked>
+                                <label for="class-urchin">Urchin</label>
+                                <p class="class-description">A street-smart survivor from the city slums.</p>
+                            </div>
+                            <div class="class-option">
+                                <input type="radio" id="class-waif" name="character-class" value="Waif">
+                                <label for="class-waif">Waif</label>
+                                <p class="class-description">A quiet outsider with mysterious origins.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="create-character-btn">Begin Adventure</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <div id="game-screen">
+            <!-- Game Interface Section (initially hidden) -->
+            <section id="game-interface" class="game-section" style="display: none;">
+                <div class="game-header">
+                    <h2>Welcome to The City of Wonders, <span id="player-name"></span></h2>
+                    <p>Your adventure begins now, brave <span id="player-class"></span>.</p>
+                </div>
+                
+                <div class="character-info">
+                    <h3>Character Stats</h3>
+                    <ul id="player-stats">
+                        <!-- Stats will be populated by JavaScript -->
+                    </ul>
+                </div>
+                
+                <div class="game-actions">
+                    <button id="explore-btn">Explore the City</button>
+                </div>
+            </section>
+        </div>
+        <!-- Include footer -->
+        <div id="include-footer">
+            <!-- This will be replaced with footer.html content -->
+        </div>
+    </div>
+</div>
