@@ -125,10 +125,10 @@ class GameState {
      * @private
      */
     _triggerHourlyEvents() {
-        // Player energy regeneration (small amount each hour)
+        // Player stamina regeneration (small amount each hour)
         if (this.player) {
-            // Regenerate 1 energy point per hour
-            this.player.modifyEnergy(1);
+            // Regenerate 1 stamina point per hour
+            this.player.modifyStamina(1);
         }
         
         // NPC schedules and other hourly events can be added here
@@ -139,9 +139,9 @@ class GameState {
      * @private
      */
     _triggerDailyEvents() {
-        // Reset player energy each morning
+        // Reset player stamina each morning
         if (this.player && this.gameTime.hour === 6) {
-            this.player.energy = this.player.maxEnergy;
+            this.player.stamina = this.player.maxStamina;
         }
         
         // City events, quest updates, and other daily events can be added here
@@ -174,8 +174,8 @@ class GameState {
                     experienceToNextLevel: this.player.experienceToNextLevel,
                     health: this.player.health,
                     maxHealth: this.player.maxHealth,
-                    energy: this.player.energy,
-                    maxEnergy: this.player.maxEnergy,
+                    stamina: this.player.stamina,
+                    maxStamina: this.player.maxStamina,
                     gold: this.player.gold
                 } : null,
                 gameTime: { ...this.gameTime },
@@ -229,8 +229,26 @@ class GameState {
                 this.player.experienceToNextLevel = parsedData.player.experienceToNextLevel || 100;
                 this.player.health = parsedData.player.health || 100;
                 this.player.maxHealth = parsedData.player.maxHealth || 100;
-                this.player.energy = parsedData.player.energy || 50;
-                this.player.maxEnergy = parsedData.player.maxEnergy || 50;
+                
+                // Handle conversion from energy to stamina for saved games
+                if (parsedData.player.stamina !== undefined) {
+                    this.player.stamina = parsedData.player.stamina;
+                    this.player.maxStamina = parsedData.player.maxStamina;
+                } else if (parsedData.player.energy !== undefined) {
+                    // Convert old energy values to new stamina system
+                    this.player.stamina = parsedData.player.energy;
+                    this.player.maxStamina = this.player.stats.endurance * 2;
+                    
+                    // Ensure stamina doesn't exceed new max based on endurance
+                    if (this.player.stamina > this.player.maxStamina) {
+                        this.player.stamina = this.player.maxStamina;
+                    }
+                } else {
+                    // Default values if neither exists
+                    this.player.stamina = this.player.stats.endurance * 2;
+                    this.player.maxStamina = this.player.stats.endurance * 2;
+                }
+                
                 this.player.gold = parsedData.player.gold || 0;
             }
             

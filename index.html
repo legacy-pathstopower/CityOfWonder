@@ -83,11 +83,7 @@
                                     <span class="resource-name">Gold:</span>
                                     <span id="player-gold" class="resource-value">0</span>
                                 </div>
-                                <div class="resource-item">
-                                    <span class="resource-icon">⚡</span>
-                                    <span class="resource-name">Energy:</span>
-                                    <span id="player-energy" class="resource-value">50</span>/<span id="player-max-energy">50</span>
-                                </div>
+                                <!-- Resource panel no longer shows energy/stamina as it's now in the stats panel -->
                                 <div id="additional-resources">
                                     <!-- Additional resources will be added here as they are unlocked -->
                                 </div>
@@ -106,12 +102,12 @@
                                         <button id="explore-btn" class="action-btn">
                                             <span class="action-icon">🔍</span>
                                             <span class="action-name">Explore</span>
-                                            <span class="action-cost">(-5 Energy)</span>
+                                            <span class="action-cost">(-1 Stamina)</span>
                                         </button>
                                         <button id="rest-btn" class="action-btn">
                                             <span class="action-icon">😴</span>
                                             <span class="action-name">Rest</span>
-                                            <span class="action-cost">(+20 Energy)</span>
+                                            <span class="action-cost">(+5 Stamina)</span>
                                         </button>
                                         <button id="trade-btn" class="action-btn">
                                             <span class="action-icon">🛒</span>
@@ -146,7 +142,15 @@
                                     <span class="stat-label">Health:</span>
                                     <div id="health-progress" class="progress-bar-container health-progress">
                                         <div id="health-bar" class="progress-bar" style="width: 100%;"></div>
-                                        <div id="health-bar-text" class="progress-bar-text">100/100</div>
+                                        <div id="health-bar-text" class="progress-bar-text">10/10</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="stamina-info">
+                                    <span class="stat-label">Stamina:</span>
+                                    <div id="stamina-progress" class="progress-bar-container stamina-progress">
+                                        <div id="stamina-bar" class="progress-bar" style="width: 100%;"></div>
+                                        <div id="stamina-bar-text" class="progress-bar-text">10/10</div>
                                     </div>
                                 </div>
                                 

@@ -628,7 +628,7 @@ footer {
     border-bottom: 1px solid var(--color-gray-medium);
 }
 
-.level-info, .exp-info, .health-info {
+.level-info, .exp-info, .health-info, .stamina-info {
     display: flex;
     justify-content: space-between;
     padding: 5px 10px;
@@ -878,6 +878,13 @@ footer a[href*="donate"]:hover {
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
 }
 
+/* XP bar - golden */
+.exp-progress .progress-bar {
+    background-color: #f1c40f;
+    background-image: linear-gradient(to right, #f39c12, #f1c40f);
+    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+}
+
 /* Health bar - red */
 .health-progress .progress-bar {
     background-color: #e74c3c;
@@ -885,11 +892,11 @@ footer a[href*="donate"]:hover {
     box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
 }
 
-/* XP bar - golden */
-.exp-progress .progress-bar {
-    background-color: #f1c40f;
-    background-image: linear-gradient(to right, #f39c12, #f1c40f);
-    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+/* Stamina bar - green */
+.stamina-progress .progress-bar {
+    background-color: #2ecc71;
+    background-image: linear-gradient(to right, #27ae60, #2ecc71);
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
 }
 
 /* Pulsing animation for low health */
@@ -924,4 +931,30 @@ footer a[href*="donate"]:hover {
 
 .exp-progress.xp-gained .progress-bar {
     animation: xp-flash 0.8s;
+}
+
+/* Stamina change animation */
+@keyframes stamina-flash {
+    0% {
+        box-shadow: 0 0 5px rgba(46, 204, 113, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(46, 204, 113, 1);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(46, 204, 113, 0.7);
+    }
+}
+
+.stamina-progress.stamina-change .progress-bar {
+    animation: stamina-flash 0.8s;
+}
+
+.level-info, .exp-info, .health-info, .stamina-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-bottom: 5px;
 }

@@ -4,7 +4,7 @@
  */
 
 import { showNotification } from '../utils/ui-manager.js';
-import { updateHealthBar, updateExpBar, initProgressBars } from '../utils/progress-bar-handler.js';
+import { updateHealthBar, updateStaminaBar, updateExpBar, initProgressBars } from '../utils/progress-bar-handler.js';
 import gameState from '../models/game-state.js';
 
 /**
@@ -52,11 +52,7 @@ function updateResourcesPanel() {
     if (!player) return;
     
     // Update gold
-    document.getElementById('player-gold').textContent = player.gold;
-    
-    // Update energy
-    document.getElementById('player-energy').textContent = player.energy;
-    document.getElementById('player-max-energy').textContent = player.maxEnergy;
+    document.getElementById('player-gold').textContent = player.gold;    
     
     // Additional resources can be added here as they are unlocked
 }
@@ -74,8 +70,9 @@ function updateStatsPanel() {
     document.getElementById('player-level').textContent = player.level;
     
     // Update progress bars instead of text
+    updateExpBar(player.experience, player.experienceToNextLevel);    
     updateHealthBar(player.health, player.maxHealth);
-    updateExpBar(player.experience, player.experienceToNextLevel);
+    updateStaminaBar(player.stamina, player.maxStamina);
     
     // Update stats list
     const statsList = document.getElementById('player-stats');

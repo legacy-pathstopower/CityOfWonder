@@ -28,10 +28,10 @@ class Character {
         this.level = 1;
         this.experience = 0;
         this.experienceToNextLevel = 100;
-        this.health = 100;
-        this.maxHealth = 100;
-        this.energy = 50;
-        this.maxEnergy = 50;
+        this.health = this.stats.vitality * 2; // Base health is twice the vitality
+        this.maxHealth = this.stats.vitality * 2; // Base health is twice the vitality
+        this.stamina = this.stats.endurance * 2; // Base stamina is twice the endurance
+        this.maxStamina = this.stats.endurance * 2; // Base stamina is twice the endurance
         this.gold = 0;
     }
 
@@ -48,11 +48,11 @@ class Character {
             this.stats[stat] += 1;
         }
         
-        // Increase health and energy
-        this.maxHealth += 20;
+        // Increase health and stamina
+        this.maxHealth = this.stats.vitality * 2;
         this.health = this.maxHealth;
-        this.maxEnergy += 10;
-        this.energy = this.maxEnergy;
+        this.maxStamina = this.stats.endurance * 2;
+        this.stamina = this.maxStamina;
         
         return {
             level: this.level,
@@ -87,12 +87,12 @@ class Character {
     }
 
     /**
-     * Modify character's energy
-     * @param {number} amount - Amount to change energy by
+     * Modify character's stamina
+     * @param {number} amount - Amount to change stamina by
      */
-    modifyEnergy(amount) {
-        this.energy = Math.max(0, Math.min(this.maxEnergy, this.energy + amount));
-        return this.energy;
+    modifyStamina(amount) {
+        this.stamina = Math.max(0, Math.min(this.maxStamina, this.stamina + amount));
+        return this.stamina;
     }
 
     /**

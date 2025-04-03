@@ -4,7 +4,7 @@
  */
 
 import gameState from '../models/game-state.js';
-import { flashExpGain } from '../utils/progress-bar-handler.js';
+import { flashExpGain, flashStaminaLoss } from '../utils/progress-bar-handler.js';
 import { updateResourcesPanel, updateStatsPanel, addToGameLog } from './game-interface-controller.js';
 import { showNotification } from '../utils/ui-manager.js';
 
@@ -29,16 +29,17 @@ import('./game-interface-controller.js').then(module => {
 function handleExplore() {
     const player = gameState.player;
     
-    // Check if player has enough energy
-    if (player.energy < 5) {
-        showNotification('Not enough energy to explore!', 'error');
-        addToGameLog('You are too tired to explore. Rest to regain energy.');
-        return { success: false, message: 'Not enough energy' };
+    // Check if player has enough stamina
+    if (player.stamina < 1) {
+        showNotification('Not enough stamina to explore!', 'error');
+        addToGameLog('You are too tired to explore. Rest to regain stamina.');
+        return { success: false, message: 'Not enough stamina' };
     }
     
-    // Spend energy
-    player.modifyEnergy(-5);
-    addToGameLog(`You spend energy to explore. (-5 Energy)`);
+    // Spend stamina
+    player.modifyStamina(-1);
+    flashStaminaLoss();
+    addToGameLog(`You spend stamina to explore. (-1 Stamina)`);
     
     // Random exploration events based on current location
     const events = generateExplorationEvents(currentLocation);
@@ -171,23 +172,24 @@ function generateExplorationEvents(location) {
 }
 
 /**
- * Handle rest action to restore energy
+ * Handle rest action to restore stamina
  * @returns {Object} The result of resting
  */
 function handleRest() {
     const player = gameState.player;
     
-    // Check if energy is already full
-    if (player.energy >= player.maxEnergy) {
+    // Check if stamina is already full
+    if (player.stamina >= player.maxStamina) {
         showNotification('You are already fully rested!', 'info');
         return { success: false, message: 'Already rested' };
     }
     
-    // Restore energy
-    const energyRestored = player.modifyEnergy(20) - (player.energy - 20);
+    // Restore stamina
+    const staminaRestored = player.modifyStamina(5);
+    const actualStaminaRestored = Math.min(5, player.maxStamina - (player.stamina - 5));
     
     // Show notification and add to log
-    addToGameLog(`You rested and recovered some energy. (+${energyRestored} Energy)`);
+    addToGameLog(`You rested and recovered some stamina. (+${actualStaminaRestored} Stamina)`);
     showNotification('You feel refreshed!', 'success');
     
     // Save game state
@@ -195,8 +197,9 @@ function handleRest() {
     
     // Update UI
     updateResourcesPanel();
+    updateStatsPanel();
     
-    return { success: true, energyRestored };
+    return { success: true, staminaRestored: actualStaminaRestored };
 }
 
 /**

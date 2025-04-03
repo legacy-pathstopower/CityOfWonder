@@ -74,6 +74,10 @@ function showGameInterface() {
     document.getElementById('player-name').textContent = player.name;
     document.getElementById('player-class').textContent = player.class;
     
+    // Update stamina display
+    document.getElementById('stamina-bar-text').textContent = `${player.stamina}/${player.maxStamina}`;
+    document.getElementById('stamina-bar').style.width = `${(player.stamina / player.maxStamina) * 100}%`;
+    
     // Generate stats list
     const statsList = document.getElementById('player-stats');
     statsList.innerHTML = '';
