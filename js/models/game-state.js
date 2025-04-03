@@ -3,6 +3,9 @@
  * Manages the overall game state and persistent data
  */
 
+// Import Character class directly for proper serialization/deserialization
+import Character from './character.js';
+
 class GameState {
     constructor() {
         this.player = null;
@@ -22,6 +25,7 @@ class GameState {
         };
         this.events = []; // Store game events/history
         this.lastSaved = null;
+        this._gameTimeInterval = null;
     }
 
     /**
@@ -158,23 +162,36 @@ class GameState {
      * Save the game state to localStorage
      */
     saveGame() {
-        // Save all game state
-        const saveData = {
-            player: this.player,
-            gameTime: this.gameTime,
-            locations: this.locations,
-            quests: this.quests,
-            inventory: this.inventory,
-            gameSettings: this.gameSettings,
-            // Only store the last 50 events to save space
-            events: this.events.slice(-50),
-            savedAt: new Date().toISOString()
-        };
-        
         try {
+            // Create a clean save object without methods or circular references
+            const saveData = {
+                player: this.player ? {
+                    name: this.player.name,
+                    class: this.player.class,
+                    stats: { ...this.player.stats },
+                    level: this.player.level,
+                    experience: this.player.experience,
+                    experienceToNextLevel: this.player.experienceToNextLevel,
+                    health: this.player.health,
+                    maxHealth: this.player.maxHealth,
+                    energy: this.player.energy,
+                    maxEnergy: this.player.maxEnergy,
+                    gold: this.player.gold
+                } : null,
+                gameTime: { ...this.gameTime },
+                locations: { ...this.locations },
+                quests: [...this.quests],
+                inventory: [...this.inventory],
+                gameSettings: { ...this.gameSettings },
+                // Only store the last 50 events to save space
+                events: this.events.slice(-50),
+                savedAt: new Date().toISOString()
+            };
+            
             localStorage.setItem('cityOfWondersSave', JSON.stringify(saveData));
             this.lastSaved = new Date();
-            console.log('Game saved successfully.');
+            
+            console.log('Game saved successfully at ' + this.lastSaved.toLocaleTimeString());
             return true;
         } catch (error) {
             console.error('Failed to save game:', error);
@@ -191,6 +208,7 @@ class GameState {
             const saveData = localStorage.getItem('cityOfWondersSave');
             
             if (!saveData) {
+                console.log('No saved game found');
                 return false;
             }
             
@@ -198,46 +216,32 @@ class GameState {
             
             // Restore game state from saved data
             if (parsedData.player) {
-                // Import the Character class and recreate the player instance
-                import('../models/character.js').then(module => {
-                    const Character = module.default;
-                    // Create a new Character instance with the basic properties
-                    this.player = new Character(
-                        parsedData.player.name, 
-                        parsedData.player.class
-                    );
-                    
-                    // Copy all the other properties from the saved data
-                    Object.assign(this.player, parsedData.player);
-                    
-                    // Update UI if needed
-                    if (document.getElementById('player-name')) {
-                        // Import and call the UI update function
-                        import('../controllers/game-interface-controller.js').then(module => {
-                            module.updateStatsPanel();
-                            module.updateResourcesPanel();
-                        }).catch(err => console.error('Failed to update UI:', err));
-                    }
-                }).catch(err => console.error('Failed to import Character class:', err));
-            } else {
-                this.player = null;
+                // Create a new Character instance with the saved properties
+                this.player = new Character(
+                    parsedData.player.name, 
+                    parsedData.player.class
+                );
+                
+                // Copy all the saved properties to the new player object
+                this.player.stats = parsedData.player.stats || this.player.stats;
+                this.player.level = parsedData.player.level || 1;
+                this.player.experience = parsedData.player.experience || 0;
+                this.player.experienceToNextLevel = parsedData.player.experienceToNextLevel || 100;
+                this.player.health = parsedData.player.health || 100;
+                this.player.maxHealth = parsedData.player.maxHealth || 100;
+                this.player.energy = parsedData.player.energy || 50;
+                this.player.maxEnergy = parsedData.player.maxEnergy || 50;
+                this.player.gold = parsedData.player.gold || 0;
             }
             
+            // Restore other game state properties
             this.gameTime = parsedData.gameTime || {
                 day: 1,
                 hour: 8,
                 minute: 0,
                 totalMinutes: 0
             };
-            // Ensure all required properties exist
-            if (!this.gameTime.day || !this.gameTime.hour) {
-                this.gameTime = {
-                    day: 1,
-                    hour: 8,
-                    minute: 0,
-                    totalMinutes: 0
-                };
-            };
+            
             this.locations = parsedData.locations || {};
             this.quests = parsedData.quests || [];
             this.inventory = parsedData.inventory || [];
@@ -248,7 +252,7 @@ class GameState {
             };
             this.events = parsedData.events || [];
             
-            console.log('Game loaded successfully.');
+            console.log('Game loaded successfully from ' + new Date(parsedData.savedAt).toLocaleString());
             return true;
         } catch (error) {
             console.error('Failed to load game:', error);
@@ -285,7 +289,7 @@ class GameState {
             // Stop game time
             this.stopGameTime();
             
-            console.log('Game reset successfully.');
+            console.log('Game reset successfully');
             return true;
         } catch (error) {
             console.error('Failed to reset game:', error);
