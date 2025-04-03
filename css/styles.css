@@ -949,3 +949,88 @@ footer a[href*="donate"]:hover {
 .stamina-progress.stamina-change .progress-bar {
     animation: stamina-flash 0.8s;
 }
+
+/* Shop Dialog Styles */
+.shop-content {
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.shop-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.shop-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-gray-medium);
+    border-radius: 6px;
+    padding: 15px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.shop-item:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 5px rgba(99, 172, 229, 0.3);
+}
+
+.shop-item h4 {
+    color: var(--color-light);
+    margin-bottom: 5px;
+}
+
+.shop-item-description {
+    color: var(--color-gray-medium);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.shop-item-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.shop-item-effect {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+}
+
+.shop-item-cost {
+    font-weight: bold;
+    color: gold;
+}
+
+.shop-buy-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.shop-buy-btn:hover:not([disabled]) {
+    background-color: var(--color-secondary);
+}
+
+.shop-buy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.shop-item.disabled {
+    opacity: 0.7;
+}
+
+#shop-available-gold {
+    color: gold;
+    font-weight: bold;
+}

@@ -207,11 +207,138 @@ function handleRest() {
  * @returns {Object} The result of trading
  */
 function handleTrade() {
-    // This is a placeholder for future implementation
-    showNotification('The market is coming soon!', 'info');
-    addToGameLog('You visit the market, but most shops are still being set up.');
+    // Show the shop interface
+    showShopInterface();
     
-    return { success: false, message: 'Trading not yet implemented' };
+    addToGameLog('You visit the market and browse the available wares.');
+    
+    return { success: true, message: 'Shop opened' };
+}
+
+/**
+ * Show the shop interface
+ */
+function showShopInterface() {
+    // Create shop dialog
+    const dialog = document.createElement('div');
+    dialog.className = 'confirmation-dialog';
+    dialog.id = 'shop-dialog';
+    
+    // Define available items
+    const shopItems = [
+        {
+            id: 'coin-purse',
+            name: 'Coin Purse',
+            description: 'A simple leather pouch that increases your gold capacity by 10.',
+            cost: 10,
+            effect: 'Increases max gold by 10',
+            onPurchase: function(player) {
+                player.increaseMaxGold(10);
+                return { success: true, message: 'Your gold capacity has increased!' };
+            },
+            canPurchase: function(player) {
+                // Can only be purchased once for now
+                // Check if player already has max gold higher than starting amount
+                return player.maxGold <= 10;
+            }
+        }
+    ];
+    
+    // Build shop content
+    let shopContent = `
+        <div class="confirmation-content shop-content">
+            <h3>Market Stalls</h3>
+            <p>Available Gold: <span id="shop-available-gold">${gameState.player.gold}</span></p>
+            <div class="shop-items">
+    `;
+    
+    // Add each shop item
+    shopItems.forEach(item => {
+        const canAfford = gameState.player.gold >= item.cost;
+        const canPurchase = item.canPurchase(gameState.player);
+        const disabled = !canAfford || !canPurchase;
+        
+        shopContent += `
+            <div class="shop-item ${disabled ? 'disabled' : ''}">
+                <h4>${item.name}</h4>
+                <p class="shop-item-description">${item.description}</p>
+                <div class="shop-item-details">
+                    <span class="shop-item-effect">${item.effect}</span>
+                    <span class="shop-item-cost">${item.cost} Gold</span>
+                </div>
+                <button class="shop-buy-btn" data-item-id="${item.id}" ${disabled ? 'disabled' : ''}>
+                    ${!canPurchase ? 'Already Owned' : (canAfford ? 'Purchase' : 'Not Enough Gold')}
+                </button>
+            </div>
+        `;
+    });
+    
+    // Close shop content
+    shopContent += `
+            </div>
+            <div class="confirmation-actions">
+                <button class="cancel-btn">Close Shop</button>
+            </div>
+        </div>
+    `;
+    
+    dialog.innerHTML = shopContent;
+    
+    // Add to DOM
+    document.body.appendChild(dialog);
+    
+    // Show dialog with animation
+    setTimeout(() => {
+        dialog.classList.add('active');
+    }, 10);
+    
+    // Setup purchase buttons
+    const buyButtons = dialog.querySelectorAll('.shop-buy-btn');
+    buyButtons.forEach(button => {
+        if (!button.disabled) {
+            button.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                const item = shopItems.find(i => i.id === itemId);
+                
+                if (item && gameState.player.gold >= item.cost) {
+                    // Subtract gold
+                    gameState.player.modifyGold(-item.cost);
+                    
+                    // Apply item effect
+                    const result = item.onPurchase(gameState.player);
+                    
+                    // Show notification
+                    showNotification(result.message, 'success');
+                    
+                    // Update log
+                    addToGameLog(`You purchased a ${item.name} for ${item.cost} gold.`);
+                    
+                    // Save game
+                    gameState.saveGame();
+                    
+                    // Update UI
+                    updateResourcesPanel();
+                    
+                    // Close shop after purchase
+                    dialog.classList.remove('active');
+                    setTimeout(() => {
+                        dialog.remove();
+                    }, 300);
+                }
+            });
+        }
+    });
+    
+    // Setup close button
+    const closeButton = dialog.querySelector('.cancel-btn');
+    closeButton.addEventListener('click', function() {
+        // Close the dialog
+        dialog.classList.remove('active');
+        
+        setTimeout(() => {
+            dialog.remove();
+        }, 300);
+    });
 }
 
 
