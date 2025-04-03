@@ -88,7 +88,7 @@ main {
 
 .game-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 2400px;
     margin: 0 auto;
     padding: 20px;
     position: relative;
@@ -307,7 +307,8 @@ footer {
 
 /* Game Interface */
 #game-interface {
-    max-width: 800px;
+    width: 100%;
+    max-width: 2400px;
     padding: 20px;
     background-color: var(--color-gray-dark);
     border-radius: 8px;
@@ -331,19 +332,21 @@ footer {
     margin-bottom: 5px;
 }
 
-/* Game time display */
+/* Game Time Display Styles */
 .game-time-display {
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: fixed;
+    top: 20px;
+    right: calc((100% - 1200px) / 2 + 50px);
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 8px 12px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 4px;
     border-left: 3px solid var(--color-accent);
     transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .time-icon {
