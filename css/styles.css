@@ -31,7 +31,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1800px;
     margin: 0 auto;
     padding: 0 20px;
     min-height: 100vh;
@@ -327,6 +327,20 @@ footer {
     position: relative;
 }
 
+.game-header-menu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    gap: 5px;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.game-header-menu .menu-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}
+
 .game-header h2 {
     color: var(--color-accent);
     margin-bottom: 5px;
@@ -335,8 +349,8 @@ footer {
 /* Game Time Display Styles */
 .game-time-display {
     position: fixed;
-    top: 20px;
-    right: 50px;
+    top: 10px;
+    right: 20px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -392,6 +406,7 @@ footer {
 
 /* Main panels layout */
 .game-panels {
+    width: 100%;
     display: flex;
     gap: 15px;
     min-height: 500px;
