@@ -214,6 +214,95 @@ function handleTrade() {
     return { success: false, message: 'Trading not yet implemented' };
 }
 
+
+/**
+ * Handle the beg action for the Waif class
+ * @returns {Object} The result of begging
+ */
+function handleBeg() {
+    const player = gameState.player;
+    
+    // Check if player has enough stamina
+    if (player.stamina < 1) {
+        showNotification('Not enough stamina to beg!', 'error');
+        addToGameLog('You are too tired to beg. Rest to regain stamina.');
+        return { success: false, message: 'Not enough stamina' };
+    }
+    
+    // Spend stamina
+    player.modifyStamina(-1);
+    flashStaminaLoss();
+    addToGameLog(`You spend stamina to beg. (-1 Stamina)`);
+    
+    // Random begging outcome
+    const goldFound = Math.floor(Math.random() * 3); // Random between 0 and 3 gold
+    player.modifyGold(goldFound);
+    
+    // Flash XP bar if we gained experience
+    const xpGained = Math.floor(Math.random() * 2); // Random between 0 and 2 XP
+    if (xpGained > 0) {
+        gameState.player.addExperience(xpGained);
+        flashExpGain(xpGained);
+        // Add to game log
+        addToGameLog(`You begged for coins and found ${goldFound} gold and gained ${xpGained} XP from your efforts!`);
+    } else {
+        addToGameLog(`You begged for coins and found ${goldFound} gold.`);
+    }   
+    
+    // Save game state
+    gameState.saveGame();
+    
+    // Update UI
+    updateResourcesPanel();
+    updateStatsPanel();
+    
+    return { success: true, goldFound: goldFound };
+}
+
+/**
+ * Handle the pick pocket action for the Urchin class
+ * @returns {Object} The result of pick pocketing
+ */
+function handlePickPocket() {
+    const player = gameState.player;
+    
+    // Check if player has enough stamina
+    if (player.stamina < 1) {
+        showNotification('Not enough stamina to pick pockets!', 'error');
+        addToGameLog('You are too tired to pick pockets. Rest to regain stamina.');
+        return { success: false, message: 'Not enough stamina' };
+    }
+    
+    // Spend stamina
+    player.modifyStamina(-1);
+    flashStaminaLoss();
+    addToGameLog(`You spend stamina to pick pockets. (-1 Stamina)`);
+    
+    // Random begging outcome
+    const goldFound = Math.floor(Math.random() * 5); // Random between 0 and 3 gold
+    player.modifyGold(goldFound);
+    
+    // Flash XP bar if we gained experience
+    const xpGained = Math.floor(Math.random() * 2); // Random between 0 and 2 XP
+    if (xpGained > 0) {
+        gameState.player.addExperience(xpGained);
+        flashExpGain(xpGained);
+        // Add to game log
+        addToGameLog(`You picked a pocket for coins and found ${goldFound} gold and gained ${xpGained} XP from your efforts!`);
+    } else {
+        addToGameLog(`You picked a pocket for coins and found ${goldFound} gold.`);
+    }   
+    
+    // Save game state
+    gameState.saveGame();
+    
+    // Update UI
+    updateResourcesPanel();
+    updateStatsPanel();
+    
+    return { success: true, goldFound: goldFound };
+}
+
 /**
  * Discover a new location (random chance)
  * @returns {Object|null} The new location or null if no discovery
@@ -392,6 +481,8 @@ export {
     handleExplore,
     handleRest,
     handleTrade,
+    handleBeg,
+    handlePickPocket,
     changeLocation,
     getCurrentLocation,
     initLocations

@@ -83,6 +83,26 @@ function showGameInterface() {
     
     // Initialize the game interface
     initGameInterface();
+    
+    // Check for class-specific actions (like beg for Waif)
+    updateClassSpecificActions(player);
+}
+
+/**
+ * Update the UI to show/hide class-specific actions
+ * @param {Object} player - The player character object
+ */
+function updateClassSpecificActions(player) {
+    // Handle Waif-specific actions
+    const begButton = document.getElementById('beg-btn');
+    if (begButton) {
+        begButton.style.display = (player.class === 'Waif') ? 'flex' : 'none';
+    }
+    // Handle Urchin-specific actions
+    const pickPocketButton = document.getElementById('pickPocket-btn');
+    if (pickPocketButton) {
+        pickPocketButton.style.display = (player.class === 'Urchin') ? 'flex' : 'none';
+    }
 }
 
 export { initCharacterCreation, createCharacter, showGameInterface };

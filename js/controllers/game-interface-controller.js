@@ -116,6 +116,28 @@ function setupActionButtons() {
     if (tradeButton) {
         tradeButton.addEventListener('click', handleTradeAction);
     }
+
+    // Beg button (Waif class only)
+    const begButton = document.getElementById('beg-btn');
+    if (begButton) {
+        begButton.addEventListener('click', handleBegAction);
+        
+        // Show beg button only for Waif class
+        if (gameState.player && gameState.player.class === 'Waif') {
+            begButton.style.display = 'flex';
+        }
+    }
+
+    // Pickpocket button (Urchin class only)
+    const pickPocketButton = document.getElementById('pickPocket-btn');
+    if (pickPocketButton) {
+        pickPocketButton.addEventListener('click', handlePickPocketAction);
+        
+        // Show beg button only for Urchin class
+        if (gameState.player && gameState.player.class === 'Urchin') {
+            pickPocketButton.style.display = 'flex';
+        }
+    }
 }
 
 /**
@@ -166,6 +188,20 @@ function handleTradeAction() {
     // Import needed for circular dependency resolution
     import('./game-activities-controller.js').then(module => {
         module.handleTrade();
+    });
+}
+
+function handleBegAction() {
+    // Import needed for circular dependency resolution
+    import('./game-activities-controller.js').then(module => {
+        module.handleBeg();
+    });
+}
+
+function handlePickPocketAction() {
+    // Import needed for circular dependency resolution
+    import('./game-activities-controller.js').then(module => {
+        module.handlePickPocket();
     });
 }
 
