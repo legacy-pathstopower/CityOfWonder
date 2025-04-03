@@ -47,6 +47,16 @@ class GameState {
         if (this._gameTimeInterval) {
             clearInterval(this._gameTimeInterval);
         }
+
+        // Validate game time before starting
+        if (!this.gameTime || typeof this.gameTime.day !== 'number') {
+            this.gameTime = {
+                day: 1,
+                hour: 8,
+                minute: 0,
+                totalMinutes: 0
+            };
+        }
         
         // Set up interval to advance game time (1 game minute every 3 seconds)
         this._gameTimeInterval = setInterval(() => {
@@ -187,12 +197,46 @@ class GameState {
             const parsedData = JSON.parse(saveData);
             
             // Restore game state from saved data
-            this.player = parsedData.player;
+            if (parsedData.player) {
+                // Import the Character class and recreate the player instance
+                import('../models/character.js').then(module => {
+                    const Character = module.default;
+                    // Create a new Character instance with the basic properties
+                    this.player = new Character(
+                        parsedData.player.name, 
+                        parsedData.player.class
+                    );
+                    
+                    // Copy all the other properties from the saved data
+                    Object.assign(this.player, parsedData.player);
+                    
+                    // Update UI if needed
+                    if (document.getElementById('player-name')) {
+                        // Import and call the UI update function
+                        import('../controllers/game-interface-controller.js').then(module => {
+                            module.updateStatsPanel();
+                            module.updateResourcesPanel();
+                        }).catch(err => console.error('Failed to update UI:', err));
+                    }
+                }).catch(err => console.error('Failed to import Character class:', err));
+            } else {
+                this.player = null;
+            }
+            
             this.gameTime = parsedData.gameTime || {
                 day: 1,
                 hour: 8,
                 minute: 0,
                 totalMinutes: 0
+            };
+            // Ensure all required properties exist
+            if (!this.gameTime.day || !this.gameTime.hour) {
+                this.gameTime = {
+                    day: 1,
+                    hour: 8,
+                    minute: 0,
+                    totalMinutes: 0
+                };
             };
             this.locations = parsedData.locations || {};
             this.quests = parsedData.quests || [];
