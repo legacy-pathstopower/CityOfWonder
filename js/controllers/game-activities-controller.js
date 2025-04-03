@@ -4,6 +4,7 @@
  */
 
 import gameState from '../models/game-state.js';
+import { flashExpGain } from '../utils/progress-bar-handler.js';
 import { updateResourcesPanel, updateStatsPanel, addToGameLog } from './game-interface-controller.js';
 import { showNotification } from '../utils/ui-manager.js';
 
@@ -47,6 +48,11 @@ function handleExplore() {
     
     // Apply event effect
     const result = randomEvent.effect();
+
+    // Flash XP bar if we gained experience
+    if (result.type === 'experience' || (result.type === 'job' && result.experience)) {
+        flashExpGain();
+    }
     
     // Add to game log
     addToGameLog(randomEvent.message);

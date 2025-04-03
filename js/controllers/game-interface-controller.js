@@ -4,6 +4,7 @@
  */
 
 import { showNotification } from '../utils/ui-manager.js';
+import { updateHealthBar, updateExpBar, initProgressBars } from '../utils/progress-bar-handler.js';
 import gameState from '../models/game-state.js';
 
 /**
@@ -14,6 +15,9 @@ function initGameInterface() {
     import('./game-time-display.js').then(module => {
         module.initGameTimeDisplay();
     });
+    
+    // Initialize progress bars
+    initProgressBars(gameState.player);
     
     // Update all UI elements with current player data
     updateResourcesPanel();
@@ -69,13 +73,9 @@ function updateStatsPanel() {
     document.getElementById('player-class').textContent = player.class;
     document.getElementById('player-level').textContent = player.level;
     
-    // Update experience
-    document.getElementById('player-exp').textContent = player.experience;
-    document.getElementById('player-exp-next').textContent = player.experienceToNextLevel;
-    
-    // Update health
-    document.getElementById('player-health').textContent = player.health;
-    document.getElementById('player-max-health').textContent = player.maxHealth;
+    // Update progress bars instead of text
+    updateHealthBar(player.health, player.maxHealth);
+    updateExpBar(player.experience, player.experienceToNextLevel);
     
     // Update stats list
     const statsList = document.getElementById('player-stats');
